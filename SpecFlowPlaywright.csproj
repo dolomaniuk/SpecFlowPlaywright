@@ -22,4 +22,13 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <Compile Update="Features\EaAppTest1.feature.cs">
+        <DependentUpon>EaAppTest1.feature</DependentUpon>
+        <AutoGen>true</AutoGen>
+        <DesignTime>true</DesignTime>
+        <Visible>true</Visible>
+      </Compile>
+    </ItemGroup>
+
 </Project>
