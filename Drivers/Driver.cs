@@ -13,7 +13,7 @@ namespace SpecFlowPlaywright.Drivers
         private async Task<IPage> InitializePlaywright()
         {
             //Playwright
-            using var playwright = await Playwright.CreateAsync();
+            var playwright = await Playwright.CreateAsync();
             //Browser
             _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {

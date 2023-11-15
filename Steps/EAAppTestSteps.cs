@@ -1,38 +1,45 @@
-﻿namespace SpecFlowPlaywright.Steps;
+﻿using FluentAssertions;
+using SpecFlowPlaywright.Drivers;
+using SpecFlowPlaywright.Pages;
+using TechTalk.SpecFlow.Assist;
+
+namespace SpecFlowPlaywright.Steps;
 
 [Binding]
 public sealed class EAAppTestSteps
 {
-    // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
+    private readonly Driver _driver;
+    private readonly LoginPage _loginPage;
 
-    private readonly ScenarioContext _scenarioContext;
-
-    public EAAppTestSteps(ScenarioContext scenarioContext)
+    public EAAppTestSteps(Driver driver)
     {
-        _scenarioContext = scenarioContext;
+        _driver = driver;
+        _loginPage = new LoginPage(_driver.Page);
     }
 
     [Given(@"I navigate to application")]
     public void GivenINavigateToApplication()
     {
-        ScenarioContext.StepIsPending();
+        _driver.Page.GotoAsync("http://www.eaapp.somee.com");
     }
 
     [Given(@"I click login link")]
-    public void GivenIClickLoginLink()
+    public async Task GivenIClickLoginLink()
     {
-        ScenarioContext.StepIsPending();
+        await _loginPage.ClickLogin();
     }
 
     [Given(@"I enter following login details")]
-    public void GivenIEnterFollowingLoginDetails(Table table)
+    public async Task GivenIEnterFollowingLoginDetails(Table table)
     {
-        ScenarioContext.StepIsPending();
+        dynamic data = table.CreateDynamicInstance();
+        await _loginPage.Login((string)data.UserName, (string)data.Password);
     }
 
     [Then(@"I see Employee List")]
-    public void ThenISeeEmployeeList()
+    public async Task ThenISeeEmployeeList()
     {
-        ScenarioContext.StepIsPending();
+        var isExist = await _loginPage.isEmployeeDetailsExists();
+        isExist.Should().Be(true);
     }
 }
